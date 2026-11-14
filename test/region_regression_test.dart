@@ -83,21 +83,12 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(home: StationPage(loader: (_) => pending.future)),
       );
-      final picker = tester.widget<DropdownButton<String>>(
-        find.byKey(const Key('area-picker')),
-      );
-      expect(picker.onChanged, isNotNull);
-      picker.onChanged!('兰亭');
+      // Tap while the first area is still loading; let the tab animation end.
+      await tester.tap(find.byKey(const ValueKey('area-兰亭')));
       await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
       expect(find.text('已完成 0/12 · 成功 0 · 失败 0'), findsOneWidget);
-      expect(
-        tester
-            .widget<DropdownButton<String>>(
-              find.byKey(const Key('area-picker')),
-            )
-            .value,
-        '兰亭',
-      );
+      expect(tester.widget<TabBar>(find.byType(TabBar)).controller!.index, 1);
       pending.complete(List.generate(10, (i) => PortInfo(i, 2)));
       await tester.pumpAndSettle();
       expect(find.text('已完成 12/12 · 成功 12 · 失败 0'), findsOneWidget);

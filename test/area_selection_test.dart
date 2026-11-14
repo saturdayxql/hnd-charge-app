@@ -54,18 +54,8 @@ void main() {
           ),
         ),
       );
-      expect(
-        tester
-            .widget<DropdownButton<String>>(
-              find.byKey(const Key('area-picker')),
-            )
-            .onChanged,
-        isNotNull,
-      );
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('area-picker')));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('兰亭 · 充电桩').last);
+      await tester.tap(find.byKey(const ValueKey('area-兰亭')));
       await tester.pumpAndSettle();
       expect(calls, 32);
       expect(find.text('已完成 12/12 · 成功 12 · 失败 0'), findsOneWidget);
@@ -80,7 +70,12 @@ void main() {
       await tester.scrollUntilVisible(
         find.text('12号桩'),
         400,
-        scrollable: find.byType(Scrollable).first,
+        scrollable: find
+            .descendant(
+              of: find.byKey(const Key('station-list')),
+              matching: find.byType(Scrollable),
+            )
+            .first,
       );
       await tester.tap(find.text('12号桩'));
       await tester.pumpAndSettle();

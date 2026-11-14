@@ -57,9 +57,7 @@ void main() {
     );
     await tester.pumpAndSettle();
     for (final name in ['二餐', '行政楼']) {
-      await tester.tap(find.byKey(const Key('area-picker')));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('$name · 充电桩').last);
+      await tester.tap(find.byKey(ValueKey('area-$name')));
       await tester.pumpAndSettle();
       final count = stationAreas[name]!.length;
       expect(find.text('已完成 $count/$count · 成功 $count · 失败 0'), findsOneWidget);
