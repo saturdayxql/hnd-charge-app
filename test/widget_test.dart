@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hnd_charge_app/main.dart';
+import 'package:hnd_charge_app/station_card.dart';
 import 'package:hnd_charge_app/area_controller.dart';
 import 'package:hnd_charge_app/station_config.dart';
 import 'package:hnd_charge_app/station_service.dart';
@@ -52,7 +53,12 @@ void main() {
     await tester.scrollUntilVisible(
       find.text('20号桩'),
       600,
-      scrollable: find.byType(Scrollable).first,
+      scrollable: find
+          .descendant(
+            of: find.byKey(const Key('station-list')),
+            matching: find.byType(Scrollable),
+          )
+          .first,
       maxScrolls: 30,
     );
     await tester.tap(find.text('20号桩'));
