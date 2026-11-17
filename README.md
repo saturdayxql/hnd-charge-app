@@ -1,4 +1,4 @@
-# 校园充电桩（hnd-charge-app）
+# 河农随心充（hnd-charge-app）
 
 面向河南农业大学龙子湖校区的充电桩状态查询 Android 应用，使用 Flutter 开发。用于出发前查看已收录设备的可用插口，并通过位置示意图寻找设备。
 
@@ -72,7 +72,17 @@ flutter build apk --debug
 
 输出通常位于 `build/app/outputs/flutter-apk/app-debug.apk`。APK 不纳入源码仓库；目前没有正式发布版下载入口。
 
-当前工程版本为 `1.0.0+1`，Android 包名为 `com.example.hnd_charge_app`。release 构建仍配置为 debug 签名，正式包名、应用名称、图标、长期签名及版本发布方式尚待确定。不能将现有 release 配置视为正式签名方案。
+当前工程版本为 `1.0.0+2`，应用名称为“河农随心充”，Android 包名为 `io.github.saturdayxql.henongcharge`。release 构建使用专用长期密钥签名；构建前需在本机终端加载签名密码。缺少签名输入时会阻止 release 构建，不会自动回退到 debug 签名。
+
+启动图标由 GPT 生成，原图保存在 `artwork/henong-charge-icon.png`，供后续设计维护使用；该目录没有加入 Flutter 运行时素材清单。Android 工程已提供不同密度的启动图标和自适应图标资源，实际设备显示效果待下一次构建安装后验证。
+
+### 正式签名准备
+
+复制 `android/key.properties.example` 为本地 `android/key.properties`，填写私有 PKCS12 密钥库的路径及别名。Windows 路径建议使用 `/` 分隔。该本地文件已被 Git 忽略，不存放密码；密钥库也应保存在工程外并独立备份。
+
+签名密码通过当前构建终端的 `HENONG_SIGNING_PASSWORD` 环境变量传入，PKCS12 私钥使用相同密码。不要把密码写进源码、示例配置或命令参数。普通 debug 开发不需要这套 release 密钥。
+
+长期密钥需由维护者在本机交互创建并核对证书；配置文件存在不等于密钥已经生成。release 构建前会检查本地配置、密钥文件、别名和会话密码，缺失时明确报错。
 
 ## 源码结构
 

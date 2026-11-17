@@ -1,4 +1,4 @@
-package com.example.hnd_charge_app
+package io.github.saturdayxql.henongcharge
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -16,7 +16,7 @@ class ChargeApp extends StatelessWidget {
   const ChargeApp({super.key});
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: '校园充电桩',
+    title: '河农随心充',
     theme: ThemeData(
       colorScheme: ColorScheme.fromSeed(seedColor: PortStatus.available.color),
       scaffoldBackgroundColor: pageColor,

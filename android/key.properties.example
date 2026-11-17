@@ -1,0 +1,6 @@
+# Local keystore location and alias. Never add passwords to this file.
+# Supply HENONG_SIGNING_PASSWORD in the terminal used for release builds.
+# Forward slashes avoid Java Properties escaping on Windows.
+storeFile=D:/DevKeys/henong-charge/henong-charge-release.p12
+storeType=PKCS12
+keyAlias=henong-charge
