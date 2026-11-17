@@ -76,6 +76,8 @@ flutter build apk --debug
 
 启动图标由 GPT 生成，原图保存在 `artwork/henong-charge-icon.png`，供后续设计维护使用；该目录没有加入 Flutter 运行时素材清单。Android 工程已提供不同密度的启动图标和自适应图标资源，实际设备显示效果待下一次构建安装后验证。
 
+为减小直接下载的 APK，release 构建会压缩打包原生库，安装时由 Android 解压；因此 APK 文件大小不等于安装后的空间占用。debug 打包方式保持不变。
+
 ### 正式签名准备
 
 复制 `android/key.properties.example` 为本地 `android/key.properties`，填写私有 PKCS12 密钥库的路径及别名。Windows 路径建议使用 `/` 分隔。该本地文件已被 Git 忽略，不存放密码；密钥库也应保存在工程外并独立备份。

@@ -81,6 +81,14 @@ android {
     }
 }
 
+// Reduce the sideload APK download size. Android extracts these libraries at install time.
+// Keep debug packaging unchanged; this setting does not change the native code itself.
+androidComponents {
+    onVariants(selector().withBuildType("release")) { variant ->
+        variant.packaging.jniLibs.useLegacyPackaging.set(true)
+    }
+}
+
 kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
