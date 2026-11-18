@@ -4,7 +4,33 @@
 
 > 开发说明：本项目主要使用 GPT 编写代码。
 
-当前为开发原型，并非学校或充电平台的官方应用。仅提供状态查询，不提供支付、预约或启动充电功能。
+当前安装包版本为 **v1.0.0**，已完成长期签名核验及维护者真机检查，项目仍在持续完善。应用并非学校或充电平台的官方产品，仅提供状态查询，不提供支付、预约或启动充电功能。
+
+## 下载与安装
+
+**[前往 Releases 页面下载 APK](https://github.com/saturdayxql/hnd-charge-app/releases)** · [v1.0.0 发布页](https://github.com/saturdayxql/hnd-charge-app/releases/tag/v1.0.0)
+
+| 项目 | v1.0.0 安装包信息 |
+|---|---|
+| 应用名称 | 河农随心充 |
+| 显示版本 / 内部版本号 | 1.0.0 / 2 |
+| 系统与架构 | Android 7.0 及以上（API 24+）、arm64-v8a |
+| APK 文件大小 | 7,487,554 字节，约 7.49 MB |
+| 签名与检查 | 使用长期密钥签名，已核对证书指纹，并由维护者完成本次 release 包的真机检查 |
+
+下载和安装步骤：
+
+1. 点击上方链接进入 **Releases（发布）** 页面，打开需要的版本，例如 **河农随心充 v1.0.0**。
+2. 展开版本下方的 **Assets（资源）**，下载以 `.apk` 结尾的安装包。v1.0.0 的文件名为 `henong-charge-v1.0.0-arm64-v8a.apk`；后续请以发布页实际附件为准。
+3. 可以直接用手机下载，也可以在电脑下载后传到手机。下载完成后，在手机上打开 APK 文件。
+4. 按 Android 安装提示操作；若系统要求授权，仅允许本次使用的浏览器或文件管理器安装应用，安装结束后可按需撤销该来源授权。
+5. 安装完成后，打开 **河农随心充**。
+
+`Assets` 中的 APK 用于手机安装；GitHub 自动提供的 `Source code (zip)` 和 `Source code (tar.gz)` 是源码压缩包，不能直接作为 Android 应用安装。同页的 `SHA256SUMS.txt` 可用于核对 APK 文件完整性。
+
+此安装包仅适用于 arm64-v8a，不适用于仅支持 32 位 ARM 或 x86 的设备。安装时 Android 会解压原生库，因此安装后的空间占用会大于 APK 文件大小。
+
+v1.0.0 对应的软件源码提交为 [`9affbec`](https://github.com/saturdayxql/hnd-charge-app/tree/9affbecfee71da7cc74564715153b519cc796912)，许可见本仓库的 [LICENSE](LICENSE)。
 
 ## 当前功能
 
@@ -62,7 +88,7 @@ dart analyze
 flutter test --no-pub --concurrency=1
 ```
 
-测试使用模拟查询结果，不需要访问真实充电平台。2026-11-09 对当时源码副本的验证结果为：`dart analyze` 无问题，18 项离线测试全部通过。该记录不代替后续修改后的验证，也不代表现场状态核验或所有手机上的兼容性测试。
+测试使用模拟查询结果，不需要访问真实充电平台。2026-11-14 对当时源码副本的验证结果为：`dart analyze` 无问题，33 项串行离线测试全部通过。v1.0.0 安装包另已完成签名、包名、版本及架构核验，并由维护者在真机上检查。历史测试记录不代替后续修改后的验证，也不代表所有手机上的兼容性测试。
 
 ### 构建开发安装包
 
@@ -70,11 +96,11 @@ flutter test --no-pub --concurrency=1
 flutter build apk --debug
 ```
 
-输出通常位于 `build/app/outputs/flutter-apk/app-debug.apk`。APK 不纳入源码仓库；目前没有正式发布版下载入口。
+输出通常位于 `build/app/outputs/flutter-apk/app-debug.apk`。APK 不纳入源码提交；供用户安装的 release APK 通过上方 Releases 页面下载。
 
 当前工程版本为 `1.0.0+2`，应用名称为“河农随心充”，Android 包名为 `io.github.saturdayxql.henongcharge`。release 构建使用专用长期密钥签名；构建前需在本机终端加载签名密码。缺少签名输入时会阻止 release 构建，不会自动回退到 debug 签名。
 
-启动图标由 GPT 生成，原图保存在 `artwork/henong-charge-icon.png`，供后续设计维护使用；该目录没有加入 Flutter 运行时素材清单。Android 工程已提供不同密度的启动图标和自适应图标资源，实际设备显示效果待下一次构建安装后验证。
+启动图标由 GPT 生成，原图保存在 `artwork/henong-charge-icon.png`，供后续设计维护使用；该目录没有加入 Flutter 运行时素材清单。Android 工程已提供不同密度的启动图标和自适应图标资源，本次 release 包的图标显示效果已由维护者在真机上检查。
 
 为减小直接下载的 APK，release 构建会压缩打包原生库，安装时由 Android 解压；因此 APK 文件大小不等于安装后的空间占用。debug 打包方式保持不变。
 
@@ -93,7 +119,12 @@ flutter build apk --debug
 | `lib/station_config.dart` | 区域、设备编号与展示顺序 |
 | `lib/station_service.dart` | 平台请求、响应校验与插口解析 |
 | `lib/area_controller.dart` | 并发队列、批次隔离、进度与汇总 |
-| `lib/main.dart` | 区域选择、状态列表与插口卡片 |
+| `lib/main.dart` | 应用主题、区域切换及列表/地图页面框架 |
+| `lib/area_bar.dart` | 区域标签栏与大字号布局 |
+| `lib/station_overview.dart` | 整桩速览及卡片跳转 |
+| `lib/summary_header.dart` | 可用插口汇总、查询进度和接收时间 |
+| `lib/station_card.dart` | 桩卡片、插口状态及旧数据提示 |
+| `lib/status_style.dart` | 状态配色、文字层级和布局测量 |
 | `lib/station_map.dart` | 创新大厦旁相对位置示意图 |
 | `test/` | 配置、解析、并发、切换、地图及布局的离线测试 |
 | `android/` | Android 原生工程与构建配置 |
@@ -117,9 +148,11 @@ flutter build apk --debug
 
 ## 本项目许可证
 
-本项目许可证尚未确定，当前仓库用于开发与版本备份，尚未以选定的开源许可证发布。本节不是对第三方内容的重新授权；相关内容仍需遵守其实际适用的许可。
+本项目的软件源码（包括 v1.0.0 对应源码）采用 **GNU General Public License version 3（GPL v3）**，完整许可文本见 [LICENSE](LICENSE)。
 
-公开发布源码或分发 APK 前，需要根据实际复用范围确认许可要求，并补齐对应许可证及必要声明。
+你可以在该许可条件下使用、修改和再分发，包括商业用途；分发受其约束的程序及修改版时，需要保留适用的版权与许可声明，并履行相应的源码提供等义务，具体以完整许可条款为准。
+
+第三方组件、参考内容和素材保留其原有版权及许可声明；本项目的许可说明不替代或消除这些要求。软件按许可条款以现状提供，不附带保证。
 
 ## 问题反馈
 
